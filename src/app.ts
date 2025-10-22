@@ -35,6 +35,7 @@ export class App {
     this.expressApp.use('/api/user', userRoutes.router);
     this.expressApp.use('/api/timbangan-kompos', timbanganKomposRoutes.router);
     // this.expressApp.use('/monitoring-absensi', monitoringAbsensiRoutes.router);
+    this.expressApp.use(express.static('public'));
   }
 
   private initErrorHandling() {
