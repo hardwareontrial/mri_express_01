@@ -3,6 +3,6 @@ dist
 
 .idea
 .env
-*.old
+**/*.ts.old
 
 package-lock.json
