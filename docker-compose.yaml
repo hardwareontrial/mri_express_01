@@ -10,9 +10,9 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
       - /src:/app
-      - /dist_public:/app/public
+      - /dist_public:/dist/public
     env_file:
-      - .prod.env
+      - .env.prod
     working_dir: /app
     command: /bin/bash -c "npm install && npm run build && npm run start"
     networks:
