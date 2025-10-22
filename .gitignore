@@ -3,5 +3,6 @@ dist
 
 .idea
 .env
+*.old
 
 package-lock.json
