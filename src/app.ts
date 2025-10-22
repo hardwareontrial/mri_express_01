@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import cors from 'cors';
 import morgan from 'morgan';
+import path from 'path';
 import { errorHandler } from './middlewares/error.middleware';
 import { AuthRoutes } from './routes/auth.route';
 import { UserRoutes } from "./routes/user.route";
@@ -35,7 +36,7 @@ export class App {
     this.expressApp.use('/api/user', userRoutes.router);
     this.expressApp.use('/api/timbangan-kompos', timbanganKomposRoutes.router);
     // this.expressApp.use('/monitoring-absensi', monitoringAbsensiRoutes.router);
-    this.expressApp.use(express.static('public'));
+    this.expressApp.use(express.static(path.join(__dirname, "../public")));
   }
 
   private initErrorHandling() {
