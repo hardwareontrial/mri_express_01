@@ -67,6 +67,9 @@ export class TimbanganKomposController {
         formData['print_count'] = 0;
         formData['sync_status'] = 0;
         formData['sync_datetime'] = '';
+      } else {
+        formData['correction_doc_number'] = JSON.parse(formData['correction_doc_number']);
+        formData['logs'] = JSON.parse(formData['logs'])
       }
 
       const responseCreate = await this.service.create(formData);
