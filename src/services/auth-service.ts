@@ -4,6 +4,7 @@ import { AuthAbilityModel, AuthRoleModel } from '../models/auth.model';
 import { UserModel } from '../models/user.model';
 import { LoginResponse, SECRET_KEY, UserOut, IAuthAbility, IAuthAbilityWrapper, UserAbilityRule, IAuthRoleWrapper } from '../types/auth.types';
 import { IUser, IUserWrapper, UserWrapper } from '../types/user.types';
+import { populate } from 'dotenv';
 
 export class AuthService {
   private mergeAbilities(data: IUser): UserAbilityRule[] {
@@ -48,24 +49,29 @@ export class AuthService {
 
   public async login(username: string, password: string) {
     try {
-      let accessToken: string = '';
-      let isUser: IUser|null = null;
-      
-      if(isNaN(parseInt(username))) {
-        if(!isUser) {
-          isUser = await UserModel.findOne().where({ email: username }).populate(
-            {
-              path: 'roleId',
-              populate: {
-                path: 'abilities' 
-              }
-            })
-          .populate('userAbilities')
-          .lean();
+      const populateOpts = [
+        { path: 'roleId',
+          populate: {
+            path: 'abilities'
+          }
+        },
+        'userAbilities'
+      ]
+
+      let query:any;
+      const usernameAsNumber = parseInt(username);
+
+      if(!isNaN(usernameAsNumber)) { query = { nik: usernameAsNumber } }
+      else {
+        query = {
+          $or: [
+            { shortNik: username },
+            { email: username },
+          ]
         }
-  
-        if(!isUser) {}
-      } else {}
+      }
+
+      const isUser:IUser|null = await UserModel.findOne(query).populate(populateOpts).lean();
       
       if(!isUser) { throw new Error('Username tidak ditemukan') }
       if(isUser && !isUser.isActive) { throw new Error('Username tidak aktif') }
@@ -77,7 +83,7 @@ export class AuthService {
         if(!comparedPassword) { throw new Error('Password tidak sesuai') }
         
         const mergedAbilities = this.mergeAbilities(populated);
-        accessToken = jwt.sign({ username: username, password: password }, SECRET_KEY, { algorithm: 'HS256' });
+        const accessToken:string = jwt.sign({ username: username, password: password }, SECRET_KEY, { algorithm: 'HS256' });
         
         const userWrapper: UserWrapper = {
           id: populated.nik,
