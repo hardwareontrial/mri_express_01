@@ -22,7 +22,7 @@ export class MqttService {
   async init() {
     try {
       if(!this.client) this.client = mqtt.connect(broker, {
-        clientId: 'mri-server-001-demo',
+        clientId: 'mri-server-001',
         clean: true,
       });
 
