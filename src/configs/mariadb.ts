@@ -1,14 +1,14 @@
-import dotenv from "dotenv";
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
 import mysql, {Pool, PoolOptions, ResultSetHeader, RowDataPacket} from 'mysql2/promise';
-import {MySqlDB} from "./mysql";
+import { MySqlDB } from "./mysql";
 
 const PORT: string = process.env.MARIADB_ATTN_MIG_PORT || '3316';
 const poolOpt: PoolOptions = {
-  host: process.env.MARIADB_ATTN_MRI_HOST,
-  user: process.env.MARIADB_ATTN_MRI_USERNAME,
-  password: process.env.MARIADB_ATTN_MRI_PASSWORD,
-  database: process.env.MARIADB_ATTN_MRI_DB,
+  host: process.env.MARIADB_ATTN_MIG_HOST,
+  user: process.env.MARIADB_ATTN_MIG_USERNAME,
+  password: process.env.MARIADB_ATTN_MIG_PASSWORD,
+  database: process.env.MARIADB_ATTN_MIG_DB,
   port: parseInt(PORT),
   waitForConnections: true,
   connectionLimit: 10,
@@ -35,7 +35,7 @@ export class MariaDB {
   async createPool() {
     try {
       if(!this.pool) this.pool = mysql.createPool(poolOpt);
-      console.log('[INFO] MariaDB connected');
+      console.log('[INFO] MariaDB Pool Created');
       return this.pool;
     } catch (e) {
       console.error(`[ERROR] MariaDB connection error: ${e}`);
@@ -57,6 +57,10 @@ export class MariaDB {
 
   async close(): Promise<void> {
     if(this.pool) await this.pool.end(); console.log(`[INFO] Koneksi MariaDB ditutup.`)
+  }
+
+  async ping() {
+    return await this.pool.ping()
   }
 }
 
