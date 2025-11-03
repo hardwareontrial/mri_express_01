@@ -6,6 +6,8 @@ import { errorHandler } from './middlewares/error.middleware';
 import { AuthRoutes } from './routes/auth.route';
 import { UserRoutes } from "./routes/user.route";
 import { TimbanganKomposRoutes } from './routes/timbangan-kompos.route';
+import { MonitoringAbsensiRoutes } from "./routes/monitoring-absensi.route";
+import { MailerRoutes } from "./routes/mailer.route";
 
 export class App {
   public expressApp: Express
@@ -26,6 +28,8 @@ export class App {
     const timbanganKomposRoutes = new TimbanganKomposRoutes();
     const authRoutes = new AuthRoutes();
     const userRoutes = new UserRoutes();
+    const monitoringAbsensiRoutes = new MonitoringAbsensiRoutes();
+    const mailerRoutes = new MailerRoutes();
 
     this.expressApp.get('/', (_req:Request, res:Response) => res.send('MRI Backend ExpressJS'));
     this.expressApp.get('/api/health', (_req:Request, res:Response) => res.send('OK'));
@@ -33,7 +37,9 @@ export class App {
     this.expressApp.use('/api/auth', authRoutes.router);
     this.expressApp.use('/api/user', userRoutes.router);
     this.expressApp.use('/api/timbangan-kompos', timbanganKomposRoutes.router);
-    this.expressApp.use(express.static(path.join(__dirname, "../public")));
+    this.expressApp.use('/api/monitoring-absensi', monitoringAbsensiRoutes.router);
+    this.expressApp.use('/api/mailer', mailerRoutes.router);
+    this.expressApp.use('/public', express.static(path.join(path.resolve(), 'public')));
   }
 
   private initErrorHandling() {
