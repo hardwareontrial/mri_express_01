@@ -129,8 +129,8 @@ export class MailerService {
           </p>
           <hr style="border: none; border-top: 1px solid #e4e7eb; margin: 28px 0"/>
           <div style="font-size: 12px; color: #9ca3af;" aria-label="Email footer">
-            <strong style="color: #111827;">&copy; 2025 PT. Molindo Raya Industrial</strong>
-            <small style="color: #a6a6a6; text-decoration: none; margin-left: 8px;">Email dikirim otomatis oleh sistem</small>
+            <strong style="color: #111827;">&copy; ${new Date().getFullYear()} PT. Molindo Raya Industrial</strong>
+            <small style="color: #a6a6a6; text-decoration: none; margin-left: 8px;">Email dikirim otomatis oleh sistem.</small>
           </div>
         </div>
       </body>
@@ -147,8 +147,8 @@ export class MailerService {
     }
 
     const info = await transporter.sendMail(mailOpts);
-    console.log(transporter) 
-    console.log("Message sent: %s", info.messageId)
+    // console.log(transporter) 
+    // console.log("Message sent: %s", info.messageId)
     
     if(attachments.length > 0){
       attachments.forEach((file:IMailerAttachment) => fs.unlinkSync(file.path))
