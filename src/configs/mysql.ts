@@ -1,5 +1,5 @@
-import dotenv from "dotenv";
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
 import mysql, {Pool, PoolOptions, ResultSetHeader, RowDataPacket} from 'mysql2/promise';
 
 const PORT: string = process.env.MYSQL_ATTN_MRI_PORT || '3316';
@@ -34,7 +34,7 @@ export class MySqlDB {
   async createPool() {
     try {
       if(!this.pool) this.pool = mysql.createPool(poolOpt);
-      console.log('[INFO] MySQL connected');
+      console.log('[INFO] MySQL pool created');
       return this.pool;
     } catch (e) {
       console.error(`[ERROR] MySQL connection error: ${e}`);
@@ -56,6 +56,10 @@ export class MySqlDB {
 
   async close(): Promise<void> {
     if(this.pool) await this.pool.end(); console.log(`[INFO] Koneksi Mysql ditutup.`)
+  }
+
+  async ping() {
+    if(this.pool) return await this.pool.ping()
   }
 }
 
