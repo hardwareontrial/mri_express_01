@@ -1,5 +1,5 @@
-import dotenv from "dotenv";
-dotenv.config();
+// import dotenv from "dotenv";
+// dotenv.config();
 import mqtt, { MqttClient } from "mqtt";
 import { socketIoService } from './socketio-service';
 
@@ -22,7 +22,7 @@ export class MqttService {
   async init() {
     try {
       if(!this.client) this.client = mqtt.connect(broker, {
-        clientId: 'mri-server-001',
+        clientId: process.env.MQTT_CLIENTID || 'mri-server-001',
         clean: true,
       });
 
