@@ -12,7 +12,7 @@ import { PluginLoader } from './configs/plugin-loader'
 import { PluginContext } from './types/plugin.interface'
 import { mqttService } from './services/mqtt-service'
 import { socketIoService } from "./services/socketio-service"
-import { emailService } from './services/email-service'
+// import { emailService } from './services/email-service'
 
 const PORT = process.env.PORT || 3001
 
@@ -40,13 +40,13 @@ async function start() {
   const pmLoader = new PluginLoader(pm, path.join(path.resolve(), 'plugins'));
   await pmLoader.start(ctx);
 
-  emailService.registerConfig('admin', {
-    host: 'mail.demo.com',
-    port: 587,
-    secure: false,
-    user: 'admin@demo.com',
-    password: 'admin123'
-  })
+  // emailService.registerConfig('admin', {
+  //   host: 'mail.demo.com',
+  //   port: 587,
+  //   secure: false,
+  //   user: 'admin@demo.com',
+  //   password: 'admin123'
+  // })
 
   server.listen(PORT, () => {
     console.log(`[INFO] Server listening on port: ${PORT}`);
