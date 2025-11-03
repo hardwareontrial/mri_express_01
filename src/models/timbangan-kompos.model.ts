@@ -53,6 +53,7 @@ const TimbanganKomposSchema = new Schema<ITimbanganKompos>({
   scaling_2_type: { type: String, default: '' },
   scaling_2_datetime: { type: String, default: '' },
   correction_doc_number: [{ type: String }],
+  revised_base_doc_number: { type: String, default: '' },
   sync_status: { type: Number, default: 0 },
   sync_datetime: { type: String, default: '' },
   revision_stat: { type: Boolean, default: false },

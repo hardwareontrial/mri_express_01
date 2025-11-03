@@ -55,13 +55,15 @@ export class TimbanganKomposController {
     try {
       let document_number: string = '';
       let updatedFormData: any = null;
-      const isRevision = req.body['isRevision'];
       let formData = req.body['formData'];
+      const isRevision = req.body['isRevision'];
+      const parentDocNumber = formData['document_number'];
       const _id = formData['_id'];
 
       if(isRevision) {
         document_number = await this.service.createDocNumber(isRevision);
         delete formData['_id'];
+        formData['revised_base_doc_number'] = parentDocNumber;
         formData['document_number'] = document_number;
         formData['correction_doc_number'] = [];
         formData['print_count'] = 0;
@@ -69,7 +71,8 @@ export class TimbanganKomposController {
         formData['sync_datetime'] = '';
       } else {
         formData['correction_doc_number'] = JSON.parse(formData['correction_doc_number']);
-        formData['logs'] = JSON.parse(formData['logs'])
+        formData['logs'] = JSON.parse(formData['logs']);
+        formData['revised_base_doc_number'] = "";
       }
 
       const responseCreate = await this.service.create(formData);

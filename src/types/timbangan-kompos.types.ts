@@ -21,6 +21,7 @@ export interface ITimbanganKompos extends Document {
   scaling_2_type: string
   scaling_2_datetime: string
   correction_doc_number: string[]
+  revised_base_doc_number: string
   sync_status: number
   sync_datetime: string
   revision_stat: boolean
@@ -37,6 +38,7 @@ export interface ResponseTimbanganKompos extends ITimbanganKompos {
   tare_timestamp?: string
   netto?: number
   correction_doc_details?: ResponseTimbanganKompos[]
+  revised_base_doc_detail?: ResponseTimbanganKompos
 }
 
 export interface CustomerRow extends Document {

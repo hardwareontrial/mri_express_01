@@ -116,6 +116,14 @@ export class TimbanganKomposService {
         }
       },
       {
+        $lookup: {
+          from: "timbangan_kompos",
+          localField: "revised_base_doc_number",
+          foreignField: "document_number",
+          as: "revised_base_doc_detail"
+        }
+      },
+      {
         $addFields: {
           bruto: {
             $cond: {
@@ -152,6 +160,12 @@ export class TimbanganKomposService {
           netto: {
             $subtract: ["$bruto", "$tare"]
           }
+        }
+      },
+      {
+        $unwind: {
+          path: "$revised_base_doc_detail",
+          preserveNullAndEmptyArrays: true
         }
       }
     ])
