@@ -1,5 +1,6 @@
 node_modules
 dist
+public/mailer
 
 .idea
 .env
@@ -7,4 +8,3 @@ dist
 .env.dev
 **/*.ts.old
 
-package-lock.json
