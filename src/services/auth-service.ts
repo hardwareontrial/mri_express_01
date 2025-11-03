@@ -71,7 +71,7 @@ export class AuthService {
         }
       }
 
-      const isUser:IUser|null = await UserModel.findOne(query).populate(populateOpts).lean();
+      const isUser:any = await UserModel.findOne(query).populate(populateOpts).lean();
       
       if(!isUser) { throw new Error('Username tidak ditemukan') }
       if(isUser && !isUser.isActive) { throw new Error('Username tidak aktif') }
